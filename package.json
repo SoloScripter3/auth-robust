@@ -1,0 +1,20 @@
+{
+  "name": "auth-robust-backend",
+  "version": "1.0.0",
+  "description": "Robust authentication system",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "auth",
+    "backend",
+    "express"
+  ],
+  "author": "VVR",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
