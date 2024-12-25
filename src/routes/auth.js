@@ -24,7 +24,7 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
 
-    newUser.save();
+    await newUser.save();
     res.status(200).send("User created successfully");
     return;
   } catch (err) {

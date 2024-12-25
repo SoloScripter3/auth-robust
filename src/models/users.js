@@ -3,20 +3,21 @@ const { z } = require("zod");
 
 //creating zod schema
 const userSchemaZod = z.object({
-  name: z.string().min(3).max(255),
+  username: z.string().min(3).max(255),
   email: z.string().email(),
   password: z.string().min(6).max(1024),
 });
 
 // Mongoose schema
 const userSchema = new mongoose.Schema({
-  name: {
+  username: {
     type: String,
     required: true,
     minlength: 3,
     maxlength: 255,
     validate: {
-      validator: (value) => userSchemaZod.shape.name.safeParse(value).success,
+      validator: (value) =>
+        userSchemaZod.shape.username.safeParse(value).success,
       message: "Name must be between 3 and 255 characters",
     },
   },
