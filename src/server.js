@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
+const session = require("express-session");
 
 //initializing express
 const app = express();
@@ -14,6 +15,11 @@ app.use(express.json());
 
 //using routes
 app.use("/api/auth", authRoutes);
+
+//using session middleware
+app.use(session({
+    
+}));
 
 //connecting db to the application
 connectDB();
