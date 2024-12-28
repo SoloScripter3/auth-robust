@@ -3,6 +3,7 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 const { otpGenerator, sendOtp } = require("../utils/otpSender");
 const User = require("../models/users");
+const Otp = require("../models/otps");
 const bcrypt = require("bcryptjs");
 
 router.post("/register", async (req, res) => {
@@ -36,8 +37,14 @@ router.post("/register", async (req, res) => {
       username,
       email,
       hashedPassword,
-      otp,
     };
+
+    //saving otp to the database
+    const otpData = new Otp({
+      email,
+      otp,
+    });
+    await otpData.save();
 
     res.status(200).send("otp sent successfully");
     return;
