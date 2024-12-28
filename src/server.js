@@ -17,9 +17,17 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 //using session middleware
-app.use(session({
-    
-}));
+app.use(
+  session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 60000,
+      secure: false,
+    },
+  })
+);
 
 //connecting db to the application
 connectDB();
