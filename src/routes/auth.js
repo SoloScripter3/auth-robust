@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const nodemailer = require("nodemailer");
+const { otpGenerator, sendOtp } = require("../utils/otpSender");
 const User = require("../models/users");
 const bcrypt = require("bcryptjs");
 
@@ -14,18 +16,30 @@ router.post("/register", async (req, res) => {
       return res.status(400).send("User already exists");
     }
 
+    //sending mail for otp verification
+    const otp = otpGenerator();
+
+    const receiverDetails = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: process.env.SUBJECT,
+      text: `${process.env.TEXT} ${otp}`,
+    };
+
+    await sendOtp(receiverDetails);
+
     //hashing the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    //creating new user
-    const newUser = new User({
+    //storing the details temporarily in the session
+    req.session.tempUserData = {
       username,
       email,
-      password: hashedPassword,
-    });
+      hashedPassword,
+      otp,
+    };
 
-    await newUser.save();
-    res.status(200).send("User created successfully");
+    res.status(200).send("otp sent successfully");
     return;
   } catch (err) {
     console.error(err);

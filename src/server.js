@@ -13,9 +13,6 @@ dotenv.config();
 //using json
 app.use(express.json());
 
-//using routes
-app.use("/api/auth", authRoutes);
-
 //using session middleware
 app.use(
   session({
@@ -28,6 +25,8 @@ app.use(
     },
   })
 );
+//using routes
+app.use("/api/auth", authRoutes);
 
 //connecting db to the application
 connectDB();
